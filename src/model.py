@@ -26,47 +26,44 @@ class AveragedPerceptron:
         return avg
 
 class Perceptron:
-    def __init__(self):
+    def __init__(self, learning_rate=1.0):
         self.weights = {}
         self.total_weights = {}
         self.timestamps = {}
         self.current_time = 0
+        self.learning_rate = learning_rate
         
     def score(self, features):
         """计算特征的分数"""
-        score = 0
-        for feat, value in features.items():
+        score = 0.0
+        for feat in features:
             if feat in self.weights:
                 score += self.weights[feat]
         return score
     
     def update(self, features, label):
-        """更新模型参数
-        
-        Args:
-            features: 特征字典
-            label: 标签 (1表示分词点，0表示非分词点)
-        """
+        """更新模型参数"""
         self.current_time += 1
         
         for feat in features:
             if feat not in self.weights:
-                self.weights[feat] = 0
-                self.total_weights[feat] = 0
+                self.weights[feat] = 0.0
+                self.total_weights[feat] = 0.0
                 self.timestamps[feat] = self.current_time
             else:
-                # 更新累积权重
+                # 更新平均权重
                 self.total_weights[feat] += (self.current_time - self.timestamps[feat]) * self.weights[feat]
                 self.timestamps[feat] = self.current_time
             
             # 根据标签更新权重
-            update = 1 if label == 1 else -1
+            update = self.learning_rate if label == 1 else -self.learning_rate
             self.weights[feat] += update
     
     def finalize(self):
-        """完成训练，平均所有权重"""
+        """完成训练，计算平均权重"""
         for feat in self.weights:
             # 更新最后一次累积
             self.total_weights[feat] += (self.current_time - self.timestamps[feat]) * self.weights[feat]
             # 计算平均权重
-            self.weights[feat] = self.total_weights[feat] / self.current_time
+            if self.current_time > 0:
+                self.weights[feat] = self.total_weights[feat] / self.current_time
