@@ -1,14 +1,33 @@
-def extract_word_features(segmented_sentence):
-    """提取词级别全局特征"""
-    features = []
-    for i in range(len(segmented_sentence)):
-        word = segmented_sentence[i]
-        # 当前词特征
-        features.append(f"WORD_{word}")
-        features.append(f"WORD_LEN_{len(word)}")
-        # 上下文特征
-        if i > 0:
-            features.append(f"BIGRAM_{segmented_sentence[i-1]}_{word}")
-        if i < len(segmented_sentence)-1:
-            features.append(f"BIGRAM_{word}_{segmented_sentence[i+1]}")
-    return features
+import re
+
+class FeatureExtractor:
+    def __init__(self):
+        # 可能需要设置特征窗口大小等参数
+        self.window_size = 2
+        
+    def extract_features(self, sentence, index):
+        """从句子中提取特征，针对指定索引位置
+        
+        Args:
+            sentence: 输入的中文字符串
+            index: 当前考虑的字符位置
+            
+        Returns:
+            特征字典
+        """
+        features = {}
+        
+        # 单字特征
+        for i in range(-self.window_size, self.window_size + 1):
+            if 0 <= index + i < len(sentence):
+                features[f'C{i}'] = sentence[index + i]
+                
+        # 双字特征
+        for i in range(-self.window_size, self.window_size):
+            if 0 <= index + i < len(sentence) - 1:
+                features[f'B{i}'] = sentence[index + i:index + i + 2]
+                
+        # 可以添加更多特征，如论文中描述的
+        # ...
+        
+        return features
