@@ -12,31 +12,31 @@ pip install -r requirements.txt
 2. 将数据解压到 `data/sighan2005/{corpus_name}/` 目录
 
 ## 项目提供了Makefile来简化数据处理、训练和测试流程：
-# 安装依赖
+ 安装依赖
 make install
 
-# 下载SIGHAN2005数据集
+ 下载SIGHAN2005数据集
 make download-data
 
-# 预处理数据
+ 预处理数据
 make preprocess
 
-# 训练所有模型(MSR和PKU)
+ 训练所有模型(MSR和PKU)
 make train
 
-# 仅训练MSR模型
+ 仅训练MSR模型
 make train-msr
 
-# 仅训练PKU模型
+ 仅训练PKU模型
 make train-pku
 
-# 测试所有模型
+ 测试所有模型
 make test
 
-# 查看所有可用命令
+ 查看所有可用命令
 make help
 
-# 执行完整流程(准备、训练、测试)
+ 执行完整流程(准备、训练、测试)
 make all
 
 ## 复现结果
