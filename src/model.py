@@ -27,9 +27,10 @@ class AveragedPerceptron:
 
 class Perceptron:
     def __init__(self, learning_rate=1.0):
-        self.weights = {}
-        self.total_weights = {}
-        self.timestamps = {}
+        from collections import defaultdict
+        self.weights = defaultdict(float)  # 使用defaultdict避免检查键存在
+        self.total_weights = defaultdict(float)
+        self.timestamps = defaultdict(int)
         self.current_time = 0
         self.learning_rate = learning_rate
         

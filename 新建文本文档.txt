@@ -1,0 +1,2 @@
+python tests/test_features.py --model_file models/perceptron_cws.pkl --test_file data\sighan2005\testing\msr_test.utf8 --dict_file data\dict.txt --beam_size 3
+python tests/test_features.py --model_file models/perceptron_cws.pkl --test_file data\sighan2005\testing\msr_test.utf8 --dict_file data/processed/msr_training_vocab.utf8 --beam_size 3
